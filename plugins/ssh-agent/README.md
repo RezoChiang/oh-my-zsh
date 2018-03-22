@@ -1,4 +1,4 @@
- ssh-agent plugin
+# ssh-agent plugin
 
 This plugin starts automatically `ssh-agent` to set up and load whichever
 credentials you want for ssh connections.

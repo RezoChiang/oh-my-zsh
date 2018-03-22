@@ -72,3 +72,4 @@ function ssh_servers_alias(){
 ssh_servers_alias "example_ssh"
 # 注意 安全起见, 形如 *.ssh.conf 的是被git排除掉的
 ssh_servers_alias "servers.ssh"
+ssh_servers_alias "localhost.ssh"
