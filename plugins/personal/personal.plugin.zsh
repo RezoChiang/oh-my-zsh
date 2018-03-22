@@ -1,6 +1,12 @@
 # Basic use for my personal.
+SU_CMD='/usr/bin/su'
+if [ ! -f $SU_CMD ]; then
+   SU_CMD=`whereis ssh | awk '{print $2}'`
+fi
 
-alias su="su toor"
+alias su2="${SU_CMD}"
+alias h="history 100"
+# alias find="find -path .git -o -path .svn -prune -o "
 alias tailf="tail -f"
 
 # 2018/03/21 - 使用着色的diff
@@ -9,6 +15,18 @@ if [[ -f $(which colordiff) ]]; then
 fi
 
 local zsh_personal_plugin_path="$(cd "$(dirname "$0")" && pwd)"
+
+# 2018/03/22 - 重写su 因为可能使用 su username的形式
+function su(){
+    local username=$1
+    local os=`uname -s | tr '[:upper:]' '[:lower:]'`
+    if [[ "$username" == "" ]]; then
+        if [[ "$os" == 'freebsd' ]]; then
+            username=toor
+        fi
+    fi
+    su2 $username
+}
 
 # 2018/03/20 - freebsd 的 mv 与 linux的mv命令不一样,要分开处理
 function trash(){
@@ -42,6 +60,7 @@ function trash(){
 }
 
 # 2018/03/21 - 设置ssh使用的ip及alias, 可使用多个配置
+# 修改后调用可重载配置
 function ssh_servers_alias(){
     if [[ "${1}" = "" ]]; then
         echo "useage: $0 conf_file"
@@ -51,7 +70,7 @@ function ssh_servers_alias(){
     if [[  -f $conf_path ]]; then
         source $conf_path
     else
-        echo "${conf_path} not found"
+        # echo "${conf_path} not found"
         return
     fi
 
@@ -66,6 +85,14 @@ function ssh_servers_alias(){
             eval $script
         fi
     done
+}
+
+# 2018/03/22 - tmux启动函数
+function tmux_start(){
+    if [[ -f $(which tmux) ]]; then
+        tmux start
+        tmux new -d -n "default" -s "startup"
+    fi
 }
 
 # 示例配置, 可供参考
