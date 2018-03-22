@@ -1,7 +1,7 @@
 # Basic use for my personal.
 SU_CMD='/usr/bin/su'
 if [ ! -f $SU_CMD ]; then
-   SU_CMD=`whereis ssh | awk '{print $2}'`
+   SU_CMD=`whereis su | awk '{print $2}'`
 fi
 
 alias su2="${SU_CMD}"
