@@ -91,6 +91,9 @@ shrink_path () {
                         [[ $dir == ${nameddirs[$part]}(/*|) ]] && dir=${dir/${nameddirs[$part]}/\~$part}
                 }
         }
+        case "$OSTYPE" in
+            (freebsd*) (( tilde )) && dir=${dir/\/usr$HOME/\~} ;;
+        esac
         (( tilde )) && dir=${dir/$HOME/\~}
         tree=(${(s:/:)dir})
         (
