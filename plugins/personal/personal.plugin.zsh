@@ -20,8 +20,8 @@ local zsh_personal_plugin_path="$(cd "$(dirname "$0")" && pwd)"
 function su(){
     local username=$1
     local os=`uname -s | tr '[:upper:]' '[:lower:]'`
-    if [[ "$username" == "" ]]; then
-        if [[ "$os" == 'freebsd' ]]; then
+    if [[ "$username" = "" ]]; then
+        if [[ "$os" = 'freebsd' ]]; then
             username=toor
         fi
     fi
@@ -87,16 +87,30 @@ function ssh_servers_alias(){
     done
 }
 
-# 2018/03/22 - tmux启动函数
-function tmux_start(){
-    if [[ -f $(which tmux) ]]; then
-        tmux start
-        tmux new -d -n "default" -s "startup"
-    fi
-}
-
 # 示例配置, 可供参考
 ssh_servers_alias "example_ssh"
 # 注意 安全起见, 形如 *.ssh.conf 的是被git排除掉的
 ssh_servers_alias "servers.ssh"
 ssh_servers_alias "localhost.ssh"
+
+# 2018/03/23 - 覆盖原有命令,支持freebsd
+open_command () {
+        emulate -L zsh
+        setopt shwordsplit
+        local open_cmd
+        case "$OSTYPE" in
+                (darwin*) open_cmd='open'  ;;
+                (cygwin*) open_cmd='cygstart'  ;;
+                (freebsd*) open_cmd='xdg-open'  ;;
+                (linux*) open_cmd='xdg-open'  ;;
+                (msys*) open_cmd='start ""'  ;;
+                (*) echo "Platform $OSTYPE not supported"
+                        return 1 ;;
+        esac
+        if [[ "$OSTYPE" == darwin* ]]
+        then
+                $open_cmd "$@" &> /dev/null
+        else
+                nohup $open_cmd "$@" &> /dev/null
+        fi
+}
