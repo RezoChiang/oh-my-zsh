@@ -45,8 +45,8 @@ function trash(){
         ln -sf $target $link_target
     fi
 
-    local date_stamp=`date "+%Y%m%d"`
-    local op_prefix=`cat /dev/urandom | strings |tr -dc '[:alnum:]' |fold -w 32 | head -n 1`
+    local date_stamp=`date "+%Y%m%d/%H_%M_%S.%N"`
+    # local op_prefix=`cat /dev/urandom | strings |tr -dc '[:alnum:]' |fold -w 32 | head -n 1`
     link_target="${HOME}/Trash/${date_stamp}/${op_prefix}"
     if [[ ! -d $link_target ]]; then
         mkdir -p $link_target
@@ -113,4 +113,9 @@ open_command () {
         else
                 nohup $open_cmd "$@" &> /dev/null
         fi
+}
+
+# # 2018/09/18 - 增加从上游合并
+function upgrade_omz_upstream() {
+  env ZSH=$ZSH sh $ZSH/tools/upgrade_from_upstream.sh
 }
