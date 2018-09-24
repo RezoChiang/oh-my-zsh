@@ -45,8 +45,9 @@ function trash(){
         ln -sf $target $link_target
     fi
 
-    local date_stamp=`date "+%Y%m%d/%H_%M_%S.%N"`
+    local date_stamp=`date "+%Y%m%d"`
     # local op_prefix=`cat /dev/urandom | strings |tr -dc '[:alnum:]' |fold -w 32 | head -n 1`
+    local op_prefix=`date "+%H_%M_%S.%N"`
     link_target="${HOME}/Trash/${date_stamp}/${op_prefix}"
     if [[ ! -d $link_target ]]; then
         mkdir -p $link_target
