@@ -8,6 +8,8 @@ alias su2="${SU_CMD}"
 alias h="history 100"
 # alias find="find -path .git -o -path .svn -prune -o "
 alias tailf="tail -f"
+# 2018/12/06 - 习惯于freebsd的 ee
+alias ee="vim"
 
 # 2018/03/21 - 使用着色的diff
 if [[ -f $(which colordiff) ]]; then
