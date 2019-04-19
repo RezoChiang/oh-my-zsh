@@ -56,8 +56,10 @@ _ssh_env_cache="$HOME/.ssh/environment-$SHORT_HOST"
 zstyle -b :omz:plugins:ssh-agent agent-forwarding _agent_forwarding
 
 if [[ $_agent_forwarding == "yes" && -n "$SSH_AUTH_SOCK" ]]; then
-	# Add a nifty symlink for screen/tmux if agent forwarding
-	[[ -L $SSH_AUTH_SOCK ]] || ln -sf "$SSH_AUTH_SOCK" /tmp/ssh-agent-$USER-screen
+    # 2018/03/22 - because the variable $USER not change when you su
+    local user=$(whoami)
+    # Add a nifty symlink for screen/tmux if agent forwarding
+    [[ -L $SSH_AUTH_SOCK ]] || ln -sf "$SSH_AUTH_SOCK" /tmp/ssh-agent-$user-screen
 elif [[ -f "$_ssh_env_cache" ]]; then
 	# Source SSH settings, if applicable
 	. $_ssh_env_cache > /dev/null
