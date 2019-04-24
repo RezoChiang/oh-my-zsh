@@ -60,16 +60,17 @@ ${home_dir}/.local/share/Trash
     if [ ! -d "${home_dir}/Trash" ]; then
         ln -sf "${home_dir}/.local/share/Trash" "${home_dir}/Trash"
     fi
-    if [ ! -d "${home_dir}/Trash" ]; then
+    if [ ! -d "${home_dir}/.Trash" ]; then
         ln -sf "${home_dir}/.local/share/Trash" "${home_dir}/.Trash"
     fi
-    if [ ! -d "${home_dir}/Trash" ]; then
+    if [ ! -d "${home_dir}/Downloads" ]; then
         ln -sf "${home_dir}/.gws_download" "${home_dir}/Downloads"
     fi
 
     for dir in ${dirs}; do
         if [ ! -d "${dir}" ]; then
             mkdir -p "${dir}"
+            echo "create ${dir}"
         fi
     done
 }
