@@ -69,7 +69,7 @@ ${home_dir}/.local/share/Trash
 
     for dir in `echo $dirs | tr '\r\n' ' '`; do
         if [ ! -d "${dir}" ]; then
-            # mkdir -p "${dir}"
+            mkdir -p "${dir}"
             echo "create ${dir}"
         fi
     done
