@@ -18,6 +18,62 @@ fi
 
 local zsh_personal_plugin_path="$(cd "$(dirname "$0")" && pwd)"
 
+# 2019/04/24 - 初始化个人电脑的工作目录, 建立常用链接
+function init_pc(){
+    local username="$(whoami)"
+    if [ "x$1" != "x" ]; then
+        username="${1}"
+    fi
+    local uid=$(id -u ${username} 2> /dev/null)
+    if [ -z "${uid}" ]; then
+        echo "ERROR: user ${username} not valid"
+        return
+    fi
+    local home_dir="/home/${username}"
+    if [ $uid = 0 ]; then
+       home_dir="/root"
+    fi
+    local dirs="
+${home_dir}/.mnt/p1
+${home_dir}/.mnt/p2
+${home_dir}/.mnt/p3
+${home_dir}/.gws_data/private
+${home_dir}/.gws_data/config_backup
+${home_dir}/.gws_temp
+${home_dir}/.gws_download
+${home_dir}/.will_trash
+${home_dir}/.local/share/Trash
+"
+    # 2019/04/24 - for short datapath
+    if [ $uid != 0 ] && [ ! -d "/data" ]; then
+        sudo ln -sf "${home_dir}/.gws_data" "/data"
+    elif [ -d "/data" ]; then
+        echo "/data has exists. will not change"
+    fi
+
+    if [ ! -d "${home_dir}/tmp" ]; then
+        ln -sf "${home_dir}/.gws_temp" "${home_dir}/tmp"
+    fi
+    if [ ! -d "${home_dir}/files" ]; then
+        ln -sf "${home_dir}/.gws_data" "${home_dir}/files"
+    fi
+    if [ ! -d "${home_dir}/Trash" ]; then
+        ln -sf "${home_dir}/.local/share/Trash" "${home_dir}/Trash"
+    fi
+    if [ ! -d "${home_dir}/Trash" ]; then
+        ln -sf "${home_dir}/.local/share/Trash" "${home_dir}/.Trash"
+    fi
+    if [ ! -d "${home_dir}/Trash" ]; then
+        ln -sf "${home_dir}/.gws_download" "${home_dir}/Downloads"
+    fi
+
+    for dir in ${dirs}; do
+        if [ ! -d "${dir}" ]; then
+            mkdir -p "${dir}"
+        fi
+    done
+}
+
 # 2018/03/22 - 重写su 因为可能使用 su username的形式
 function su(){
     local username=$1
