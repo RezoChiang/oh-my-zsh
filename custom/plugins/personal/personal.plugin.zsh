@@ -50,6 +50,12 @@ ${home_dir}/.local/share/Trash
     elif [ -d "/data" ]; then
         echo "/data has exists. will not change"
     fi
+    # 2019/04/25 - for short datapath
+    if [ $uid != 0 ] && [ ! -d "/temp" ]; then
+        sudo ln -sf "${home_dir}/.gws_temp" "/temp"
+    elif [ -d "/temp" ]; then
+        echo "/temp has exists. will not change"
+    fi
 
     if [ ! -d "${home_dir}/tmp" ]; then
         ln -sf "${home_dir}/.gws_temp" "${home_dir}/tmp"
