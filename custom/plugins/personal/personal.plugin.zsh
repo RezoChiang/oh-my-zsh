@@ -18,6 +18,11 @@ fi
 
 local zsh_personal_plugin_path="$(cd "$(dirname "$0")" && pwd)"
 
+# 2019/06/05 - 增加python环境变量, 优先系统, 再个人
+if [ -d "$HOME/.local/bin" ] ; then
+    export PATH="$PATH:$HOME/.local/bin"
+fi
+
 # 2019/04/24 - 初始化个人电脑的工作目录, 建立常用链接
 function init_pc(){
     local username="$(whoami)"
