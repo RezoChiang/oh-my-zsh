@@ -69,6 +69,7 @@ zstyle :omz:plugins:ssh-agent identities work_key
 
 plugins=(
     ansible
+    golang
     autojump
     shrink-path
     history-substring-search
