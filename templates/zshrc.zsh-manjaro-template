@@ -75,9 +75,7 @@ plugins=(
     history-substring-search
     tmux
     git
-    emacs
     docker
-    web-search
     ssh-agent
     personal
 )
