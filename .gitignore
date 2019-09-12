@@ -4,4 +4,3 @@ custom/
 # temp files directories
 cache/
 log/
-*.ssh.conf
