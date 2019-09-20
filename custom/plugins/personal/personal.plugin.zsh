@@ -8,6 +8,12 @@ alias h="history 100"
 alias tailf="tail -f"
 # 2018/12/06 - 习惯于freebsd的 ee
 alias ee="vim"
+# 重定义su命令
+SU_CMD='/usr/bin/su'
+if [ ! -f $SU_CMD ]; then
+   SU_CMD=`whereis ssh | awk '{print $2}'`
+fi
+alias su2="${SU_CMD}"
 
 # 2018/03/21 - 使用着色的diff
 if [[ -f $(which colordiff) ]]; then

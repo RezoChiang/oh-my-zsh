@@ -61,16 +61,18 @@ ${home_dir}/.local/share/Trash
     done
 }
 
+# 2019/09/20 - 初始化go目录
+function init_proj_go(){
+    local proj_path=$1
+    if [[ "$proj_path" = "" ]]; then
+        proj_path=$(pwd)
+    fi
+    mkdir -p "$proj_path/src" "$proj_path/bin" "$proj_path/pkg"
+    export GOPATH=$proj_path
+}
+
 # 2018/03/22 - 重写su 因为可能使用 su username的形式
 function su(){
-    if [[ -e ${SU_CMD} ]]; then
-        SU_CMD='/usr/bin/su'
-        if [[ ! -f $SU_CMD ]]; then
-            SU_CMD=`whereis su | awk '{print $2}'`
-        fi
-        alias su2="${SU_CMD}"
-    fi
-
     local username=$1
     local os=`uname -s | tr '[:upper:]' '[:lower:]'`
     if [[ "$username" = "" ]]; then
