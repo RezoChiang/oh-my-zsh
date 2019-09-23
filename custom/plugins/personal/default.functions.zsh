@@ -61,7 +61,7 @@ ${home_dir}/.local/share/Trash
     done
 }
 
-# 2019/09/20 - 初始化go目录
+# 2019/09/20 - 初始化go项目目录
 function init_proj_go(){
     local proj_path=$1
     if [[ "$proj_path" = "" ]]; then
@@ -69,6 +69,28 @@ function init_proj_go(){
     fi
     mkdir -p "$proj_path/src" "$proj_path/bin" "$proj_path/pkg"
     export GOPATH=$proj_path
+}
+
+# 2019/09/23 - 初始化PHP与docker项目目录
+function init_proj_php_with_docker(){
+    local proj_name=$1
+    if [[ "$proj_name" = "" ]]; then
+        echo "create project base structure with one command."
+        echo "usage: $0 project_name"
+    fi
+    local proj_path=$2
+    if [[ "$proj_path" = "" ]]; then
+        proj_path=$(pwd)
+    fi
+    mkdir -p "$proj_path/$proj_name/src" \
+          "$proj_path/$proj_name/docker" \
+          "$proj_path/$proj_name/db" \
+          "$proj_path/$proj_name/db_backup" \
+          "$proj_path/$proj_name/doc" \
+          "$proj_path/$proj_name/conf/nginx" \
+          "$proj_path/$proj_name/log/nginx"
+    touch "$proj_path/$proj_name/.giti"
+    touch "$proj_path/$proj_name/readme.org"
 }
 
 # 2018/03/22 - 重写su 因为可能使用 su username的形式
