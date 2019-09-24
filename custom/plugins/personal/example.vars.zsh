@@ -1,3 +1,6 @@
+# 2019/09/24 - ssh-key auto load
+zstyle :omz:plugins:ssh-agent identities id_rsa
+
 # 2019/09/12 - For hub github authorization.
 export GITHUB_USER="your_github_username"
 export GITHUB_PASSWORD="your_github_token"

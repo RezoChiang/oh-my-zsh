@@ -82,15 +82,17 @@ function init_proj_php_with_docker(){
     if [[ "$proj_path" = "" ]]; then
         proj_path=$(pwd)
     fi
-    mkdir -p "$proj_path/$proj_name/src" \
-          "$proj_path/$proj_name/docker" \
-          "$proj_path/$proj_name/db" \
+    mkdir -p "$proj_path/$proj_name/backup" \
           "$proj_path/$proj_name/bin" \
-          "$proj_path/$proj_name/db_backup" \
-          "$proj_path/$proj_name/doc" \
           "$proj_path/$proj_name/conf/nginx" \
-          "$proj_path/$proj_name/log/nginx"
-    touch "$proj_path/$proj_name/readme.org"
+          "$proj_path/$proj_name/db" \
+          "$proj_path/$proj_name/doc" \
+          "$proj_path/$proj_name/docker" \
+          "$proj_path/$proj_name/log/nginx" \
+          "$proj_path/$proj_name/tmp" \
+          "$proj_path/$proj_name/tools" \
+          "$proj_path/$proj_name/src"
+        touch "$proj_path/$proj_name/readme.org"
 }
 
 # 2018/03/22 - 重写su 因为可能使用 su username的形式
