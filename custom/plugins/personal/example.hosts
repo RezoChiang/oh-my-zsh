@@ -1,3 +1,2 @@
-# hostname ip [port] [user]
-localhost 127.0.0.1 22 username
-
+#ip hostname [username] [port] 
+127.0.0.1 localhost root 22

@@ -11,7 +11,9 @@ function init_pc(){
     fi
     local home_dir="/home/${username}"
     if [ $uid = 0 ]; then
-        home_dir="/root"
+        # home_dir="/root"
+        echo "DO NOT USE root user for daily."
+        return
     fi
     local dirs="
 ${home_dir}/mnt/p1
@@ -20,18 +22,26 @@ ${home_dir}/mnt/p3
 ${home_dir}/.gws_data/private
 ${home_dir}/.gws_data/config_backup
 ${home_dir}/.gws_temp
+${home_dir}/.gws_temp/screenshot
 ${home_dir}/.gws_download
 ${home_dir}/.will_trash
 ${home_dir}/.local/share/Trash
 "
+    for dir in `echo $dirs | tr '\r\n' ' '`; do
+        if [ ! -d "${dir}" ]; then
+            mkdir -p "${dir}"
+            echo "create ${dir}"
+        fi
+    done
+
     # 2019/04/24 - for short datapath
-    if [ $uid != 0 ] && [ ! -d "/data" ]; then
+    if [ ! -d "/data" ]; then
         sudo ln -sf "${home_dir}/.gws_data" "/data"
     elif [ -d "/data" ]; then
         echo "/data has exists. will not change"
     fi
     # 2019/04/25 - for short datapath
-    if [ $uid != 0 ] && [ ! -d "/temp" ]; then
+    if [ ! -d "/temp" ]; then
         sudo ln -sf "${home_dir}/.gws_temp" "/temp"
     elif [ -d "/temp" ]; then
         echo "/temp has exists. will not change"
@@ -52,13 +62,6 @@ ${home_dir}/.local/share/Trash
     if [ ! -d "${home_dir}/Downloads" ]; then
         ln -sf "${home_dir}/.gws_download" "${home_dir}/Downloads"
     fi
-
-    for dir in `echo $dirs | tr '\r\n' ' '`; do
-        if [ ! -d "${dir}" ]; then
-            mkdir -p "${dir}"
-            echo "create ${dir}"
-        fi
-    done
 }
 
 # 2019/09/20 - 初始化go项目目录
@@ -140,31 +143,31 @@ function trash(){
 }
 # 2018/03/21 - 设置ssh使用的ip及alias, 可使用多个配置
 # 修改后调用可重载配置
-function ssh_servers_alias(){
-    if [[ "${1}" = "" ]]; then
-        echo "useage: $0 conf_file"
-        return
-    fi
-    local conf_path="${zsh_personal_plugin_path}/${1}.conf"
-    if [[  -f $conf_path ]]; then
-        source $conf_path
-    else
-        # echo "${conf_path} not found"
-        return
-    fi
+# function ssh_servers_alias(){
+#     if [[ "${1}" = "" ]]; then
+#         echo "useage: $0 conf_file"
+#         return
+#     fi
+#     local conf_path="${zsh_personal_plugin_path}/${1}.conf"
+#     if [[  -f $conf_path ]]; then
+#         source $conf_path
+#     else
+#         # echo "${conf_path} not found"
+#         return
+#     fi
 
-    local ip=''
-    local script=''
-    for s in `echo $SERVERS | tr '\r\n' ' '`; do
-        if [[ -n "$s" ]]; then
-            ip="echo \$$(echo ${s})"
-            ip=`eval ${ip}`
-            script="alias 2${s}=\"ssh ${SSH_OPT} ${SSH_USER}@${ip}\""
-            # echo $script
-            eval $script
-        fi
-    done
-}
+#     local ip=''
+#     local script=''
+#     for s in `echo $SERVERS | tr '\r\n' ' '`; do
+#         if [[ -n "$s" ]]; then
+#             ip="echo \$$(echo ${s})"
+#             ip=`eval ${ip}`
+#             # script="alias 2${s}=\"ssh ${SSH_OPT} ${SSH_USER}@${ip}\""
+#             # echo $script
+#             eval $script
+#         fi
+#     done
+# }
 
 # 2018/03/21 - 设置ssh使用的ip及alias, 可使用多个配置
 # 2019/09/12 -
@@ -201,10 +204,10 @@ function servers_alias(){
             continue
         fi
         # local name=$(echo $host | tr "[\-]" "[\_]" | awk '{print $1}')
-        local name=$(echo $host | sed "s/-//g" | awk '{print $1}')
-        local ip=$(echo $host | awk '{print $2}')
-        local port=$(echo $host | awk '{print $3}')
-        local user=$(echo $host | awk '{print $4}')
+        local ip=$(echo $host | awk '{print $1}')
+        local name=$(echo $host | sed "s/-//g" | awk '{print $2}')
+        local user=$(echo $host | awk '{print $3}')
+        local port=$(echo $host | awk '{print $4}')
         if [[ -z $port ]]; then
             port=$SSH_PORT
         fi
