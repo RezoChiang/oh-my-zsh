@@ -18,4 +18,4 @@ export SSH_HOSTS="/path/to/host/file"
 
 # 2019/09/12 - for ansible config environment variables.
 # 2019/09/12 - https://docs.ansible.com/ansible/latest/reference_appendices/config.html#environment-variables
-export ANSIBLE_CONFIG="/path/to/ansible/hosts"
+# export ANSIBLE_CONFIG="/path/to/ansible/hosts"
