@@ -9,23 +9,18 @@ function init_pc(){
         echo "ERROR: user ${username} not valid"
         return
     fi
-    local home_dir="/home/${username}"
+    local home_dir="/Users/${username}"
     if [ $uid = 0 ]; then
         # home_dir="/root"
         echo "DO NOT USE root user for daily."
         return
     fi
     local dirs="
-${home_dir}/mnt/p1
-${home_dir}/mnt/p2
-${home_dir}/mnt/p3
 ${home_dir}/.gws_data/private
 ${home_dir}/.gws_data/config_backup
 ${home_dir}/.gws_temp
 ${home_dir}/.gws_temp/screenshot
-${home_dir}/.gws_download
 ${home_dir}/.will_trash
-${home_dir}/.local/share/Trash
 "
     for dir in `echo $dirs | tr '\r\n' ' '`; do
         if [ ! -d "${dir}" ]; then
@@ -54,13 +49,7 @@ ${home_dir}/.local/share/Trash
         ln -sf "${home_dir}/.gws_data" "${home_dir}/files"
     fi
     if [ ! -d "${home_dir}/Trash" ]; then
-        ln -sf "${home_dir}/.local/share/Trash" "${home_dir}/Trash"
-    fi
-    if [ ! -d "${home_dir}/.Trash" ]; then
-        ln -sf "${home_dir}/.local/share/Trash" "${home_dir}/.Trash"
-    fi
-    if [ ! -d "${home_dir}/Downloads" ]; then
-        ln -sf "${home_dir}/.gws_download" "${home_dir}/Downloads"
+        ln -sf "${home_dir}/.Trash" "${home_dir}/Trash"
     fi
 }
 
