@@ -20,9 +20,9 @@ ${home_dir}/mnt/p1
 ${home_dir}/mnt/p2
 ${home_dir}/mnt/p3
 ${home_dir}/.gws_data/private
-${home_dir}/.gws_data/config_backup
+${home_dir}/.gws_data/private/screenshot
+${home_dir}/.gws_data/private/org
 ${home_dir}/.gws_temp
-${home_dir}/.gws_temp/screenshot
 ${home_dir}/.gws_download
 ${home_dir}/.will_trash
 ${home_dir}/.local/share/Trash
