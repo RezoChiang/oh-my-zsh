@@ -79,7 +79,7 @@ function init_proj_php_with_docker(){
     local proj_name=$1
     if [[ "$proj_name" = "" ]]; then
         echo "create project base structure with one command."
-        echo "usage: $0 project_name"
+        echo "usage: $0 project_name [$project_path]"
     fi
     local proj_path=$2
     if [[ "$proj_path" = "" ]]; then
